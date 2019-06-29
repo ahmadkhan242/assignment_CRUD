@@ -1,0 +1,15 @@
+<% include partials/header %>
+<% for(var i=0; i<crud.length; i++) {%>
+        <form action="/edit/<%=crud[i]['id']%>/edit" method="POST">
+            <label for="name">Name : </label>
+            <input type="text" name="name" value="<%=crud[i]['name']%>">
+            <label for="Roll No">Roll No :</label>
+            <input type="number" name= "number" value="<%=crud[i]['roll']%>">
+            <button>submit</button>
+        </form>
+ <% } %>
+
+ 
+
+
+<% include partials/footer %>

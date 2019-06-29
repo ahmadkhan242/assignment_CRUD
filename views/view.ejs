@@ -1,0 +1,18 @@
+<ul>
+
+        <% for(var i=0; i<crud.length; i++) {%>
+                    <li><%= crud[i]['id'] %></li>
+                    <li><%= crud[i]['name'] %></li>
+                    <li><%= crud[i]['roll'] %></li>
+                    <button>
+                            <a href="/edit/<%=crud[i]['id']%>/edit">Edit</a>
+                    </button>
+                      
+                            <form action="/delete/<%=crud[i]['id'] %>/delete" method="post" >
+                                    <button> Delete</button>
+                            </form>
+        
+             <% } %>
+        
+       
+     </ul>
