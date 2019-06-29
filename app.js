@@ -3,8 +3,7 @@ var express         = require('express'),
     app             = express(),
     bodyParser      = require('body-parser'),
     methodOverride  = require("method-override"),
-    path            = require('path'),
-    pg              = require("pg")
+    path            = require('path')
 
 
 
@@ -21,7 +20,7 @@ app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 
 app.set('views', path.join(__dirname, 'views'));
-app.use('/public',express.static('public'));
+
 
 
 

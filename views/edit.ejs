@@ -1,4 +1,5 @@
 <% include partials/header %>
+<p>Edit Data Here</p>
 <% for(var i=0; i<crud.length; i++) {%>
         <form action="/edit/<%=crud[i]['id']%>/edit" method="POST">
             <label for="name">Name : </label>

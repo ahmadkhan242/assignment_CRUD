@@ -1,5 +1,5 @@
-<p>Come</p>
-
+<% include partials/header %>
+<p>All Data Peresent Here </p>
 <ul>
     <% for(var i=0; i<crud.length; i++) {%>
        <li><%= crud[i]['name'] %>
@@ -11,3 +11,4 @@
     <button>
         <a href="/input">Add</a>
     </button>
+    <% include partials/footer %>
