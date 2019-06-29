@@ -20,9 +20,11 @@ router.get('/',(req,res) =>{
         if(err){
             console.log(err)
             }else{
-                pool.query("SELECT * FROM crud_api",(err,result) => {
-                res.render('main.ejs', { crud: result.rows})
-                });
+                pool.query("SELECT * FROM crud_api")
+                .then((result)=>{
+                    res.render('main.ejs', { crud: result.rows})
+                })
+                .catch(err)
             }
         })
 });
@@ -30,13 +32,11 @@ router.get('/',(req,res) =>{
 //To view particular user 
 router.get('/view/:id', (req,res) => {
     pool.connect( (err, client, done) => {
-        pool.query("SELECT * FROM crud_api WHERE id = $1",[req.params.id],(err,result) => {
-            if(err){
-                console.log(err)
-                }else{
-                    res.render('view', { crud: result.rows})
-                }
-        });
+        pool.query("SELECT * FROM crud_api WHERE id = $1",[req.params.id])
+        .then((result)=>{
+            res.render('view', { crud: result.rows})
+        })
+        .catch(err)
     })
 })
 
@@ -48,12 +48,9 @@ router.get('/input', (req,res) => {
 
 router.post('/input', (req,res) => {
         pool.connect( (err, client, done) => {
-            if(err){
-                console.log(err)
-                }else{
-                    client.query("INSERT INTO crud_api (name, roll) VALUES($1, $2) ",[req.body.name,req.body.roll])
-                    res.redirect('/')
-                }
+                client.query("INSERT INTO crud_api (name, roll) VALUES($1, $2) ",[req.body.name,req.body.roll])
+                .then(res.redirect('/'))
+                .catch(err)
             })
 })
 
@@ -62,40 +59,28 @@ router.post('/input', (req,res) => {
 //API to render edit template to edit user data with id 
 router.get('/edit/:id/edit', (req,res) => {
     pool.connect( (err, client, done)=> {
-        if(err){
-            console.log(err)
-            }else{
-                pool.query("SELECT * FROM crud_api WHERE id = $1",[req.params.id],(err,result) => {
-                res.render('edit', { crud: result.rows})
-            });
-        }
+                pool.query("SELECT * FROM crud_api WHERE id = $1",[req.params.id])
+                .then((result)=>{
+                    res.render('edit', { crud: result.rows})
+                } )
+                .catch(err)
     })
 })
 
 //API to edit user data with id 
 router.post('/edit/:id/edit', (req,res) => {
     pool.connect( (err, client, done)=> {
-        if(err){
-            console.log(err)
-            }else{
                  client.query("UPDATE crud_api SET name=$1, roll=$2 WHERE id=$3",[req.body.name,req.body.number,req.params.id])
-                 res.redirect('/view/'+ req.params.id)
-            }
+                 .then(res.redirect('/view/'+ req.params.id))
+                 .catch(err)
         })
 })
 
 //API to delete user data with id 
 router.post('/delete/:id', (req,res) => {
     pool.connect( (err, client, done)=> {
-        if(err){
-        console.log(err)
-        }else{
-            client.query("DELETE FROM crud_api WHERE id=$1",[req.params.id],(err ,result) =>{
-                console.log(req.body.id)
-                res.redirect('/')
-            });
-            
-        } 
+            client.query("DELETE FROM crud_api WHERE id=$1",[req.params.id])
+            .then(res.redirect('/')).catch(err)
 })
 })
 
