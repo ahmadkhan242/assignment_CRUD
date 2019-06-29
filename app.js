@@ -23,7 +23,6 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 
-
 // Using all routes from routes folder
 app.use(nameroutes);
 

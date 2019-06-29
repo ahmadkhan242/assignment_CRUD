@@ -14,6 +14,21 @@ const pool = new Pool({
   })
 
 
+
+
+// Adding dummy data to database 
+function data(){
+var names = ["Rakesh", "Anant","Ahmad","Zeshaan","Lakshay"]
+var rolls = [1,2,3,4,5]
+pool.connect( (err, client) => {
+for(var i=0;i<names.length;i++){
+        client.query("INSERT INTO crud_api (name, roll) VALUES($1, $2) ",[names[i],rolls[i]])
+        console.log(`Name ${names[i]} and roll ${rolls[i]} added to database `)        
+    }
+})
+}
+data()
+
 //Getting Home page and fetching all data
 router.get('/',(req,res) =>{
     pool.connect( (err, client) => {
