@@ -15,8 +15,8 @@ const pool = new Pool({
 
 
 //Getting Home page and fetching all data
-router.get('/',function(req,res){
-    pool.connect( function(err, client, done) {
+router.get('/',(req,res) =>{
+    pool.connect( (err, client, done) => {
         if(err){
             console.log(err)
             }else{
@@ -29,7 +29,7 @@ router.get('/',function(req,res){
 
 //To view particular user 
 router.get('/view/:id', (req,res) => {
-    pool.connect( function(err, client, done) {
+    pool.connect( (err, client, done) => {
         pool.query("SELECT * FROM crud_api WHERE id = $1",[req.params.id],(err,result) => {
             if(err){
                 console.log(err)
@@ -47,7 +47,7 @@ router.get('/input', (req,res) => {
 })
 
 router.post('/input', (req,res) => {
-        pool.connect( function(err, client, done) {
+        pool.connect( (err, client, done) => {
             if(err){
                 console.log(err)
                 }else{
@@ -61,7 +61,7 @@ router.post('/input', (req,res) => {
 
 //API to render edit template to edit user data with id 
 router.get('/edit/:id/edit', (req,res) => {
-    pool.connect( function(err, client, done) {
+    pool.connect( (err, client, done)=> {
         if(err){
             console.log(err)
             }else{
@@ -74,24 +74,27 @@ router.get('/edit/:id/edit', (req,res) => {
 
 //API to edit user data with id 
 router.post('/edit/:id/edit', (req,res) => {
-    pool.connect( function(err, client, done) {
+    pool.connect( (err, client, done)=> {
         if(err){
             console.log(err)
             }else{
-                 client.query("UPDATE crud_api SET name=$1, roll=$2 WHERE id=$3",[req.body.name,req.body.roll,req.body.id])
-                 res.redirect('/')
+                 client.query("UPDATE crud_api SET name=$1, roll=$2 WHERE id=$3",[req.body.name,req.body.number,req.params.id])
+                 res.redirect('/view/'+ req.params.id)
             }
         })
 })
 
 //API to delete user data with id 
-router.post('/delete/:id/delete', (req,res) => {
-    pool.connect( function(err, client, done) {
+router.post('/delete/:id', (req,res) => {
+    pool.connect( (err, client, done)=> {
         if(err){
         console.log(err)
         }else{
-            client.query("DELETE FROM crud_api WHERE id=$1",[req.body.id])
-            res.redirect('/')
+            client.query("DELETE FROM crud_api WHERE id=$1",[req.params.id],(err ,result) =>{
+                console.log(req.body.id)
+                res.redirect('/')
+            });
+            
         } 
 })
 })
